@@ -10,7 +10,14 @@ class ProductsControllers {
                 productName,
                 description
             } = req.body
-
+ 
+            if(await Products.findOne({code})){
+                return res.status(400).json({error: 'Code already exists'})
+            }
+            if(await Products.findOne({productName})){
+                return res.status(400).json({error: 'Product name already exists'})
+            }
+            
             const products = await Products.create({
                 code,
                 price,
@@ -28,12 +35,25 @@ class ProductsControllers {
     async getProducts(req, res){
         const { category } = req.params
         try {
-            if(category === 'all'){
+            if(category === 'Todos'){
                 const products = await Products.find({})  
-                return res.status(200).send({products})
+                return res.status(200).send(products)
             }
             const products = await Products.find({category: category})
-            return res.status(200).send({products})
+            return res.status(200).send(products)
+        } catch (error) {
+            console.error(err)
+            return res.status(500).json({ error: "Internal server error" })
+        }
+    }
+    async getProduct(req, res){
+        const { code } = req.params
+        try {
+            const product = await Products.findOne({code})
+            if(product){
+                return res.status(200).send(product)
+            }
+            return res.status(400).json({error: 'Code not exists'})
         } catch (error) {
             console.error(err)
             return res.status(500).json({ error: "Internal server error" })
