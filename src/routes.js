@@ -28,6 +28,7 @@ routes.delete('/clean-orders', auth.IsAdmin, OrdersControllers.ordersClean)
 
 routes.post('/products', auth.IsAdmin, ProductsControllers.create)
 routes.get('/products-menu/:category', ProductsControllers.getProducts)
+routes.get('/products/:productName', ProductsControllers.getProduct)
 
 routes.post('/transactions',  auth.authMiddlewares, TransactionsControllers.create)
 routes.post('/transactions/webhook/pagseguro', PostBackController.pagseguro)

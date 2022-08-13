@@ -47,13 +47,13 @@ class ProductsControllers {
         }
     }
     async getProduct(req, res){
-        const { code } = req.params
+        const { productName } = req.params
         try {
-            const product = await Products.findOne({code})
+            const product = await Products.findOne({productName})
             if(product){
                 return res.status(200).send(product)
             }
-            return res.status(400).json({error: 'Code not exists'})
+            return res.status(400).json({error: 'Product not exists'})
         } catch (error) {
             console.error(err)
             return res.status(500).json({ error: "Internal server error" })
