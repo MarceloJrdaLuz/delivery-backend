@@ -6,6 +6,7 @@ import AuthControllers from './controllers/AuthControllers'
 import OrdersControllers from './controllers/OrdersControllers'
 import ProductsControllers from './controllers/ProductsControllers'
 import auth from './middlewares/auth'
+import DeliveryControllers from './controllers/DeliveryControllers'
 
 
 const routes = new Router()
@@ -32,5 +33,9 @@ routes.get('/products/:productName', ProductsControllers.getProduct)
 
 routes.post('/transactions',  auth.authMiddlewares, TransactionsControllers.create)
 routes.post('/transactions/webhook/pagseguro', PostBackController.pagseguro)
+
+routes.post('/register-delivery',  auth.authMiddlewares, DeliveryControllers.registerValueDelivery)
+routes.get('/value-delivery/:neighborhood', DeliveryControllers.getValuesDelivery)
+routes.get('/bairros', DeliveryControllers.getNeighborhood)
 
 export default routes
